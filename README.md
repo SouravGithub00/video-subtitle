@@ -5,13 +5,6 @@ pip install ffmpeg-python
 pip install srt
 -->
 
-# Video to Word-Level Subtitles (CSV) — macOS
-
-This Python project converts any video file into **word-level subtitles** with start and end timestamps, and exports them as a CSV file.  
-
-The user only needs Python and FFmpeg installed. No prior Python experience is required.
-
----
 
 ## Prerequisites
 
@@ -68,6 +61,11 @@ source venv/bin/activate
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
+```
+
+then run
+```bash
+python3 index.py
 ```
 
 ---
