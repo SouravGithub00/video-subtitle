@@ -1,11 +1,10 @@
-<!-- pip install git+https://github.com/m-bain/whisperx.git
+
+<!--
+pip install git+https://github.com/m-bain/whisperx.git
 pip install ffmpeg-python
-pip install srt -->
+pip install srt
+-->
 
-
-
-
-````markdown
 # Video to Word-Level Subtitles (CSV) — macOS
 
 This Python project converts any video file into **word-level subtitles** with start and end timestamps, and exports them as a CSV file.  
@@ -21,8 +20,9 @@ The user only needs Python and FFmpeg installed. No prior Python experience is r
 1. Download Python 3.12 (or later) from [https://www.python.org/downloads/mac-osx/](https://www.python.org/downloads/mac-osx/).  
 2. Open the downloaded `.pkg` file and follow the instructions to install Python.  
 3. Verify Python installation:
-   ```bash
-   python3 --version
+
+```bash
+python3 --version
 ````
 
 ---
@@ -51,22 +51,24 @@ Verify installation:
 ffmpeg -version
 ```
 
+---
 
 ### 4. Install Project Dependencies
 
 1. Open Terminal and navigate to the project folder.
 2. Create a virtual environment (recommended):
 
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
 3. Install dependencies:
 
-   ```bash
-   pip install --upgrade pip
-   pip install -r requirements.txt
-   ```
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 
 ---
 
@@ -76,18 +78,12 @@ If Python fails to verify SSL certificates:
 
 1. Run the Python installer helper:
 
-   ```bash
-   open /Applications/Python\ 3.x/Install\ Certificates.command
-   ```
-
-   Replace `3.x` with your Python version (e.g., `3.12`).
-
-2. Alternatively, in `index.py` you can add:
-
-```python
-import ssl, certifi
-ssl._create_default_https_context = ssl.create_default_context(cafile=certifi.where())
+```bash
+open /Applications/Python\ 3.x/Install\ Certificates.command
 ```
+
+Replace `3.x` with your Python version (e.g., `3.12`).
+
 
 ---
 
@@ -107,5 +103,4 @@ python3 index.py
 ## Input / Output
 
 * **Input:** `input/input.mp4`
-* **Output:** `subtitles.csv` with columns:
-
+* **Output:** `subtitles.csv`
