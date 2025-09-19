@@ -7,6 +7,7 @@ pip install srt
 
 
 ## Prerequisites
+create a folder `input` inside the repo and paste the video in it as `input.mp4`
 
 ### 1. Install Python
 
