@@ -9,6 +9,8 @@ pip install srt
 ## Prerequisites
 create a folder `input` inside the repo and paste the video in it as `input.mp4`
 
+* **Input:** `input/input.mp4`
+
 ### 1. Install Python
 
 1. Download Python 3.12 (or later) from [https://www.python.org/downloads/mac-osx/](https://www.python.org/downloads/mac-osx/).  
@@ -102,4 +104,4 @@ python3 index.py
 ## Input / Output
 
 * **Input:** `input/input.mp4`
-* **Output:** `subtitles.csv`
+* **Output:** `output/subtitles.csv`
