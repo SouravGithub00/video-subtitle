@@ -2,6 +2,16 @@ import os
 import ffmpeg
 import whisperx
 import pandas as pd
+import argparse
+
+# -----------------------------
+# 0. Parse command-line arguments
+# -----------------------------
+parser = argparse.ArgumentParser(description="Process video to generate subtitles.")
+parser.add_argument("--start", type=float, required=True, help="Start time in seconds")
+parser.add_argument("--end", type=float, required=True, help="End time in seconds")
+args = parser.parse_args()
+
 # -----------------------------
 # 0. Setup paths
 # -----------------------------
@@ -18,7 +28,7 @@ audio_file = os.path.join(input_dir, "audio.wav")
 # Convert video to mono 16kHz wav (needed for WhisperX)
 (
     ffmpeg
-    .input(video_file)
+    .input(video_file, ss=args.start, to=args.end)
     .output(audio_file, ac=1, ar=16000)
     .overwrite_output()
     .run()
@@ -53,8 +63,8 @@ for segment in aligned_result["segments"]:
     for word in segment["words"]:
         rows.append({
             "word": word["word"],
-            "start": word["start"],
-            "end": word["end"]
+            "start": word["start"] + args.start,
+            "end": word["end"] + args.start
         })
 
 df = pd.DataFrame(rows)
