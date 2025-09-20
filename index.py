@@ -8,9 +8,17 @@ import argparse
 # 0. Parse command-line arguments
 # -----------------------------
 parser = argparse.ArgumentParser(description="Process video to generate subtitles.")
-parser.add_argument("--start", type=float, required=True, help="Start time in seconds")
-parser.add_argument("--end", type=float, required=True, help="End time in seconds")
+parser.add_argument("--start", type=float, required=False, help="Start time in seconds (optional)")
+parser.add_argument("--end", type=float, required=False, help="End time in seconds (optional)")
+parser.add_argument("--language", type=str, required=False, help="Language code (optional)")
 args = parser.parse_args()
+
+# -----------------------------
+# Handle optional start and end arguments
+# -----------------------------
+start_time = args.start if args.start is not None else 0
+end_time = args.end if args.end is not None else None
+language = args.language if args.language is not None else None
 
 # -----------------------------
 # 0. Setup paths
@@ -25,10 +33,17 @@ os.makedirs(output_dir, exist_ok=True)
 video_file = os.path.join(input_dir, "input.mp4")
 audio_file = os.path.join(input_dir, "audio.wav")
 
+input_kwargs = {}
+if start_time:
+    input_kwargs['ss'] = start_time
+if end_time:
+    input_kwargs['to'] = end_time
+
+
 # Convert video to mono 16kHz wav (needed for WhisperX)
 (
     ffmpeg
-    .input(video_file, ss=args.start, to=args.end)
+    .input(video_file, **input_kwargs)
     .output(audio_file, ac=1, ar=16000)
     .overwrite_output()
     .run()
@@ -40,12 +55,17 @@ audio_file = os.path.join(input_dir, "audio.wav")
 device = "cpu"   # change to "cuda" if you have a GPU
 batch_size = 16
 
-model = whisperx.load_model("small", device, compute_type="float32")
+input_args = {}
+if language:
+    input_args['language'] = language
+
+model = whisperx.load_model("small", device, compute_type="float32", **input_args)
 
 # -----------------------------
 # 3. Transcribe audio
 # -----------------------------
 result = model.transcribe(audio_file, batch_size=batch_size)
+
 print("Detected Language:", result["language"])
 
 # -----------------------------
@@ -63,8 +83,8 @@ for segment in aligned_result["segments"]:
     for word in segment["words"]:
         rows.append({
             "word": word["word"],
-            "start": word["start"] + args.start,
-            "end": word["end"] + args.start
+            "start": word["start"] + start_time,
+            "end": word["end"] + start_time
         })
 
 df = pd.DataFrame(rows)
