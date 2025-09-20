@@ -66,6 +66,8 @@ model = whisperx.load_model("small", device, compute_type="float32", **input_arg
 # -----------------------------
 result = model.transcribe(audio_file, batch_size=batch_size)
 
+print('text:', result)
+
 print("Detected Language:", result["language"])
 
 # -----------------------------
